@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秀姑巒阿美語期末報告 Final Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { 
+            background-color: #fff1f2; /* 淺玫瑰紅底色 */
+            font-family: 'Noto Sans TC', sans-serif; 
+        }
+        .amis-text {
+            line-height: 2.2;
+            letter-spacing: 0.02em;
+        }
+        .student-table th {
+            background-color: #881337; /* Rose 900 */
+            color: #fff;
+            font-weight: 600;
+        }
+        .page-title-gradient {
+            background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+        }
+        .bilingual-sub {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.8;
+            margin-top: 1px;
+        }
+        .editable-name {
+            cursor: text;
+            transition: all 0.2s;
+        }
+        .editable-name:hover {
+            background-color: #fff1f2;
+        }
+        .editable-name:focus {
+            background-color: #fff;
+            outline: 2px solid #e11d48;
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .tab-active {
+            border-bottom: 4px solid #e11d48;
+            color: #881337;
+            background-color: #fff1f2;
+        }
+        /* 計時器動畫效果 */
+        @keyframes pulse-red {
+            0%, 100% { background-color: #fee2e2; }
+            50% { background-color: #fca5a5; }
+        }
+        .timer-running {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        /* 錄音動畫 */
+        @keyframes pulse-record {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+        .recording-active {
+            animation: pulse-record 1.5s infinite;
+            background-color: #e11d48 !important;
+            border-color: #e11d48 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+    <!-- 頂部導覽 -->
+    <nav class="bg-slate-900 text-white p-4 shadow-lg mb-0">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <i class="fas fa-university text-rose-400"></i> 
+                <div>
+                    族語能力認證學習系統
+                    <span class="bilingual-sub">Indigenous Language Certification System</span>
+                </div>
+            </h1>
+            <div id="connection-indicator" class="text-xs bg-slate-800 px-3 py-1 rounded-full border border-slate-700 text-rose-400">
+                <i class="fas fa-check-circle mr-1"></i> 
+                雲端連動中 <span class="ml-1 opacity-60">Cloud Syncing</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 專屬標題區 -->
+    <div class="page-title-gradient text-white py-10 px-4 mb-8 shadow-inner border-b-4 border-rose-900">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">
+                秀姑巒阿美語期末報告
+            </h2>
+            <p class="text-xl md:text-2xl font-light text-rose-100 italic">
+                Final Presentation List (Siwkolan 'Amis)
+            </p>
+            
+            <!-- 新增教師與課程資訊 -->
+            <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+                <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20 flex flex-col items-center min-w-[120px]">
+                    <span class="font-bold text-white"><i class="fas fa-chalkboard-teacher mr-1"></i> 授課教師</span>
+                    <span class="text-xs text-rose-100 opacity-90 mt-0.5">蘿拉麻吉 Sonay Rolla Moggi</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20 flex flex-col items-center min-w-[120px]">
+                    <span class="font-bold text-white"><i class="fas fa-book-reader mr-1"></i> 課程名稱</span>
+                    <span class="text-xs text-rose-100 opacity-90 mt-0.5">族語 3</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20 flex flex-col items-center min-w-[120px]">
+                    <span class="font-bold text-white"><i class="fas fa-users mr-1"></i> 班級</span>
+                    <span class="text-xs text-rose-100 opacity-90 mt-0.5">幼教系 (原專班)</span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <span class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-sm border border-white/30 flex flex-col items-center">
+                    <span class="font-bold">2026年 1月</span>
+                    <span class="text-[10px] opacity-80 uppercase tracking-widest text-white">January 2026</span>
+                </span>
+                <span class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-sm border border-white/30 flex flex-col items-center text-center">
+                    <span class="font-bold">語文教室 (阿美語組)</span>
+                    <span class="text-[10px] opacity-80 uppercase tracking-widest text-white">Language Lab</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4">
+        
+        <!-- 考生名單區塊 -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 mb-10 overflow-hidden">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
+                    <i class="fas fa-list-ol text-rose-700"></i> 
+                    <div>
+                        秀姑巒阿美語報告名單
+                        <span class="text-xs font-normal text-slate-500 block uppercase tracking-tight">Presentation List</span>
+                    </div>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left student-table">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-4 text-sm">序號</th>
+                            <th class="px-6 py-4 text-sm">姓名 (可修改)</th>
+                            <th class="px-6 py-4 text-sm">族語分組</th>
+                            <th class="px-6 py-4 text-sm">級別</th>
+                            <th class="px-6 py-4 text-sm text-center">狀態 (點擊切換)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-rose-50/50 transition-colors">
+                            <td class="px-6 py-4 font-mono font-bold text-rose-800">10</td>
+                            <td class="px-6 py-4 font-bold text-slate-800 editable-name" contenteditable="true" id="student-name">
+                                王妤君
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 cursor-pointer hover:text-rose-600"><i class="fas fa-university mr-1"></i>秀姑巒阿美語 (Siwkolan)</td>
+                            <td class="px-6 py-4"><span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold ring-1 ring-amber-200">中高級</span></td>
+                            <td class="px-6 py-4 text-sm font-bold text-slate-400 cursor-pointer hover:bg-slate-100 transition-all text-center select-none" onclick="toggleStatus(this)">
+                                <span><i class="far fa-clock mr-1"></i> 待報告</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- 左側：考題區 -->
+            <div class="space-y-8">
+                <!-- Task 1: 朗讀考題 -->
+                <div class="bg-white p-3 rounded-3xl shadow-lg overflow-hidden border border-slate-200 ring-1 ring-rose-100">
+                    <div class="px-5 py-4 border-b flex items-center justify-between bg-rose-50/50">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-book-open text-rose-600 text-xl"></i> 
+                            <div>
+                                <h4 class="font-bold text-slate-800">朗讀考題</h4>
+                                <span class="text-[10px] font-normal text-slate-500 block uppercase tracking-tighter italic">Reading Task</span>
+                                <div class="mt-1 text-[10px] text-rose-800 font-bold bg-white/60 px-1.5 py-0.5 rounded border border-rose-200 inline-block">
+                                    <i class="fas fa-clock mr-1"></i>備答 2分鐘 / 作答 1.5分鐘
+                                </div>
+                            </div>
+                        </span>
+                        <span class="text-[11px] font-bold text-rose-700 bg-white px-2 py-0.5 rounded border border-rose-200">TASK 1</span>
+                    </div>
+                    <div class="p-2 bg-slate-50 min-h-[300px] flex items-center justify-center">
+                         <!-- 朗讀圖片更新 -->
+                         <img id="task1-img" src="" class="w-full h-auto object-contain rounded-xl shadow-inner">
+                    </div>
+                </div>
+
+                <!-- Task 2: 看圖說故事考題 -->
+                <div class="bg-white p-3 rounded-3xl shadow-lg overflow-hidden border border-slate-200 ring-1 ring-rose-100">
+                    <div class="px-5 py-4 border-b flex items-center justify-between bg-slate-50">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-comment-dots text-rose-600 text-xl"></i> 
+                            <div>
+                                <h4 class="font-bold text-slate-800">看圖說故事考題 (請選一題)</h4>
+                                <span class="text-[10px] font-normal text-slate-500 block uppercase tracking-tighter italic">Storytelling Task (Select 1 of 3)</span>
+                                <div class="mt-1 text-[10px] text-rose-800 font-bold bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200 inline-block">
+                                    <i class="fas fa-clock mr-1"></i>備答 2分鐘 / 作答 2分鐘
+                                </div>
+                            </div>
+                        </span>
+                        <span class="text-[11px] font-bold text-rose-700 bg-white px-2 py-0.5 rounded border border-rose-200">TASK 2</span>
+                    </div>
+                    
+                    <!-- 圖片選擇按鈕 -->
+                    <div class="px-5 py-3 bg-slate-50 flex gap-2 overflow-x-auto border-b border-slate-100">
+                         <button onclick="switchStoryImage(1)" class="flex-1 bg-rose-100 text-rose-700 border-rose-300 ring-2 ring-rose-200 py-2 px-4 rounded-lg border text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-1">
+                            <i class="far fa-image mr-1"></i> 主題 A
+                         </button>
+                         <button onclick="switchStoryImage(2)" class="flex-1 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-2">
+                            <i class="far fa-image mr-1"></i> 主題 B
+                         </button>
+                         <button onclick="switchStoryImage(3)" class="flex-1 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-3">
+                            <i class="far fa-image mr-1"></i> 主題 C
+                         </button>
+                    </div>
+
+                    <!-- 主題說明與提示語顯示區 -->
+                    <div id="story-info-box" class="px-6 py-4 bg-amber-50 border-b border-amber-100 mb-0 transition-colors duration-300">
+                        <h5 id="story-title" class="font-bold text-slate-800 text-lg mb-2 flex flex-wrap items-center gap-2">
+                            <!-- JS 動態填入 -->
+                        </h5>
+                        <p id="story-prompt" class="text-slate-600 text-sm leading-relaxed">
+                            <!-- JS 動態填入 -->
+                        </p>
+                    </div>
+
+                    <div class="p-2 bg-slate-50 min-h-[300px] flex items-center justify-center">
+                        <img id="story-display-img" 
+                             src="" 
+                             alt="Storytelling Exam" 
+                             class="w-full h-auto object-contain rounded-xl shadow-inner transition-opacity duration-300">
+                    </div>
+                </div>
+
+                <!-- 讀稿內容文字 (含音訊播放) -->
+                <div class="bg-white p-10 rounded-[2rem] shadow-xl border border-slate-100 relative overflow-hidden ring-1 ring-slate-200">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 -mr-10 -mt-10 rounded-full"></div>
+                    
+                    <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">
+                        <h3 class="text-2xl font-bold text-slate-800 border-l-4 border-rose-600 pl-4">
+                            朗讀內容文字 
+                            <span class="text-xs font-normal text-slate-500 block uppercase tracking-wider italic">Reading Text Content</span>
+                        </h3>
+                        
+                        <!-- 內嵌式參考音訊播放器群組 -->
+                        <div class="flex flex-col gap-2 w-full md:w-auto">
+                            <!-- Audio 1 (阿美語音檔) -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center shadow-sm w-full md:w-auto">
+                                 <div class="text-xs font-bold text-slate-400 uppercase px-3 border-r border-slate-200 mr-2 flex flex-col leading-tight min-w-[70px]">
+                                    <span><i class="fas fa-headphones-alt text-rose-500 mr-1"></i>參考 1</span>
+                                    <span>Audio 1</span>
+                                 </div>
+                                 <audio id="ref-audio" controls class="h-8 w-full md:w-60">
+                                    <source src="" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <!-- Audio 2 (如需第二段音檔可開啟，目前隱藏) -->
+                            <div id="ref-audio-container-2" class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center shadow-sm w-full md:w-auto hidden">
+                                 <div class="text-xs font-bold text-slate-400 uppercase px-3 border-r border-slate-200 mr-2 flex flex-col leading-tight min-w-[70px]">
+                                    <span><i class="fas fa-headphones-alt text-rose-500 mr-1"></i>參考 2</span>
+                                    <span>Audio 2</span>
+                                 </div>
+                                 <audio id="ref-audio-2" controls class="h-8 w-full md:w-60">
+                                    <source src="" type="audio/mpeg">
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 text-rose-800 font-bold bg-rose-50 px-4 py-2 rounded-lg inline-block text-sm border border-rose-100">
+                        秀姑巒阿美語 / 第10階第5課 O losay i palapatan 四季產物
+                    </div>
+                    
+                    <!-- 朗讀內容分段與評分 -->
+                    <div id="content-text">
+                        <!-- 這裡的內容將由 JavaScript 動態填入 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側：計時器、播放器與文本 -->
+            <div class="space-y-8">
+                
+                <!-- 測驗計時控制台 -->
+                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 overflow-hidden ring-1 ring-slate-200 sticky top-4 z-40">
+                    <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <i class="fas fa-stopwatch text-yellow-400"></i>
+                            測驗計時控制台
+                            <span class="text-xs font-normal opacity-60 uppercase">Exam Timers</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 grid gap-4">
+                        <!-- 準備時間計時器 (1:30) -->
+                        <div id="timer-box-prep" class="bg-amber-50 rounded-xl p-4 border border-amber-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-amber-100 text-amber-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+                                <div>
+                                    <div class="text-xs font-bold text-amber-800 uppercase tracking-wider">準備時間 Preparation</div>
+                                    <div id="timer-display-prep" class="text-2xl font-mono font-bold text-slate-700">01:30</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('prep', 90)" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('prep', 90)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 朗讀作答計時器 (2:00) -->
+                        <div id="timer-box-read" class="bg-rose-50 rounded-xl p-4 border border-rose-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-rose-100 text-rose-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+                                <div>
+                                    <div class="text-xs font-bold text-rose-800 uppercase tracking-wider">朗讀作答 Reading</div>
+                                    <div id="timer-display-read" class="text-2xl font-mono font-bold text-slate-700">02:00</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('read', 120)" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('read', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 看圖說故事計時器 (2:00) -->
+                        <div id="timer-box-story" class="bg-blue-50 rounded-xl p-4 border border-blue-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+                                <div>
+                                    <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">說故事 Storytelling</div>
+                                    <div id="timer-display-story" class="text-2xl font-mono font-bold text-slate-700">02:00</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('story', 120)" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('story', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 錄音機與內容區塊 -->
+                <div class="flex flex-col gap-4">
+                    
+                    <!-- 線上錄音機 (Task 1 & Task 2) -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-microphone-alt text-rose-500"></i>
+                            線上錄音作答 (需錄製三段)
+                            <span class="text-xs font-normal text-slate-500 uppercase">Record All 3 Tasks</span>
+                        </h3>
+
+                        <!-- Recorder 1: Midterm Reading -->
+                        <div class="mb-6 border-b border-slate-100 pb-6">
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">1. 期中朗讀測驗錄音 (Midterm Reading)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-1" onclick="startRecording(1)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-rose-500 hover:text-rose-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-1" onclick="stopRecording(1)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-1" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-1" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-1" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載期中錄音
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recorder 2: Final Reading -->
+                        <div class="mb-6 border-b border-slate-100 pb-6">
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">2. 期末朗讀測驗錄音 (Final Reading)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-2" onclick="startRecording(2)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-rose-500 hover:text-rose-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-2" onclick="stopRecording(2)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-2" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-2" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-2" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載期末錄音
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recorder 3: Storytelling -->
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">3. 看圖說故事錄音 (Storytelling Task)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-3" onclick="startRecording(3)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-3" onclick="stopRecording(3)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-3" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-3" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-3" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載說故事錄音
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 錄音上傳作答連結 -->
+                    <a href="#" onclick="openGoogleFormWithData(event, 'audio')" class="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white rounded-xl p-4 flex items-center justify-between shadow-lg transition-all group border border-rose-500 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-cloud-upload-alt text-white"></i>
+                            </div>
+                            <div class="text-left">
+                                <div class="font-bold text-lg">錄音上傳作答 (自動填入姓名)</div>
+                                <div class="text-xs text-rose-100 uppercase">1. 下載錄音 -> 2. 點此上傳檔案</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-rose-200 group-hover:text-white transition-colors"></i>
+                    </a>
+
+                    <!-- 手稿上傳作答連結 -->
+                    <a href="#" onclick="openGoogleFormWithData(event, 'manuscript')" class="w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white rounded-xl p-4 flex items-center justify-between shadow-lg transition-all group border border-sky-500 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-file-alt text-white"></i>
+                            </div>
+                            <div class="text-left">
+                                <div class="font-bold text-lg">上傳看圖說故事手稿</div>
+                                <div class="text-xs text-sky-100 uppercase">請上傳您的故事手稿 (Google 表單)</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-sky-200 group-hover:text-white transition-colors"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-16 text-center text-slate-400 text-sm py-8 border-t border-slate-200 bg-white">
+        <p>秀姑巒阿美語 | 期末報告認證評量輔助系統</p>
+        <p class="mt-1 italic uppercase tracking-widest text-[10px]">© 2026 Final Evaluation Management System (Siwkolan 'Amis)</p>
+    </footer>
+
+    <script>
+        // --- 音效與語音提示 ---
+        const synth = window.speechSynthesis;
+
+        function playDing() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+            osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.5); // Drop to A4
+            
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
+        }
+
+        function speakText(text, onEndCallback) {
+            if (synth.speaking) {
+                synth.cancel(); // Cancel previous if any
+            }
+            if (text !== '') {
+                const utterThis = new SpeechSynthesisUtterance(text);
+                utterThis.rate = 0.9;
+                utterThis.pitch = 1;
+                if (onEndCallback) {
+                    utterThis.onend = onEndCallback;
+                }
+                synth.speak(utterThis);
+            } else {
+                if (onEndCallback) onEndCallback();
+            }
+        }
+
+        // --- 評分按鈕功能 ---
+        window.togglePassFail = function(btn, status) {
+            const parent = btn.parentElement;
+            // 清除同組按鈕樣式
+            parent.querySelectorAll('button').forEach(b => {
+                b.classList.remove('bg-green-600', 'bg-red-600', 'text-white', 'ring-2', 'ring-offset-1');
+                b.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+            });
+
+            // 設定當前按鈕樣式
+            if (status === 'pass') {
+                btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                btn.classList.add('bg-green-600', 'text-white', 'border-green-600', 'ring-2', 'ring-green-200', 'ring-offset-1');
+            } else {
+                btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                btn.classList.add('bg-red-600', 'text-white', 'border-red-600', 'ring-2', 'ring-red-200', 'ring-offset-1');
+            }
+        };
+
+        // --- 考生狀態切換功能 ---
+        window.toggleStatus = function(el) {
+            if (el.innerText.includes('待報告')) {
+                el.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fas fa-check-circle mr-1"></i> 報告完成</span>';
+                el.classList.add('bg-emerald-50');
+                el.classList.remove('text-slate-400');
+            } else {
+                el.innerHTML = '<span><i class="far fa-clock mr-1"></i> 待報告</span>';
+                el.classList.remove('bg-emerald-50');
+                el.classList.add('text-slate-400');
+            }
+        };
+
+        // --- 看圖說故事圖片與文字切換邏輯 ---
+        const storyData = {
+            1: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767049285/1%E7%9C%8B%E5%9C%96%E8%AA%AA%E6%95%85%E4%BA%8B_rqomyg.png",
+                title: '主題A 拜訪爺爺奶奶的一天 <span class="text-sm font-normal text-slate-500 ml-2">Visiting Grandma\'s Day</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 拜訪爺爺奶奶的一天 (Visiting Grandma\'s Day)..... <br><span class="text-rose-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-rose-300">Yo cecay a romiʼad a milisoʼ ci akongan aci ama:an</span>'
+            },
+            2: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767044762/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2_2025-12-30_054318_ky2ivg.png",
+                title: '主題B 我喜歡的活動 <span class="text-sm font-normal text-slate-500 ml-2">My Favorite Activity</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 我喜歡做什麼...... <br><span class="text-rose-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-rose-300">O maan ko kaolahan no mako a demak</span>'
+            },
+            3: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767049291/2_%E5%92%8C%E5%AE%B6%E4%BA%BA%E5%9B%9E%E9%83%A8%E8%90%BD_%E7%9C%8B%E5%9C%96%E8%AA%AA%E6%95%85%E4%BA%8B_mtpfg8.png",
+                title: '主題C 和家人回部落 <span class="text-sm font-normal text-slate-500 ml-2">A Trip Back to the Village with My Family</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 和家人回部落 (A Trip Back to the Village with My Family)..... <br><span class="text-rose-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-rose-300">Minokay kako ato paro no lomaʼ</span>'
+            }
+        };
+
+        window.switchStoryImage = function(id) {
+            const imgEl = document.getElementById('story-display-img');
+            const titleEl = document.getElementById('story-title');
+            const promptEl = document.getElementById('story-prompt');
+            const infoBox = document.getElementById('story-info-box');
+
+            const data = storyData[id];
+
+            imgEl.style.opacity = '0.5';
+            setTimeout(() => {
+                imgEl.src = data.img;
+                titleEl.innerHTML = data.title;
+                promptEl.innerHTML = data.prompt;
+                imgEl.style.opacity = '1';
+                infoBox.classList.add('bg-yellow-100');
+                setTimeout(() => infoBox.classList.remove('bg-yellow-100'), 300);
+            }, 150);
+
+            document.querySelectorAll('[id^="btn-story-"]').forEach(btn => {
+                btn.className = "flex-1 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap";
+            });
+
+            const activeBtn = document.getElementById(`btn-story-${id}`);
+            activeBtn.className = "flex-1 bg-rose-100 text-rose-700 border-rose-300 ring-2 ring-rose-200 py-2 px-4 rounded-lg border text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap";
+        };
+
+        // --- 考題資料庫 (秀姑巒阿美語) ---
+        const examData = {
+            central: {
+                student: "王妤君",
+                title: "秀姑巒阿美語 / 第10階第5課 : O losay i palapatan 四季產物",
+                audio: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1766045333/%E7%A7%80%E5%A7%91%E5%B7%9210%E9%9A%8E-5%E8%AA%B2_6_mgtegj.mp3",
+                audio2: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1767243460/%E7%A7%80%E9%98%BF%E7%AC%AC10%E9%9A%8E5-2_yjmgkm.mp3",
+                textMidterm: "O kafarawfawan a palapatan i, malo:fic ko karo’, makacikarokaro’ ko lomaloma’, nengneng han ko folad to dadaya^, sa taengad sa malikat, matiya^ o karo’ ato folad ko paro^ no loma’ a marikec.",
+                textFinal: "O kasienawan i, o kacikolangan, adihay ko kolang ato saytaw, malo sasakiroen no mato’asay ko saytaw, ta manga’ay a ma’anang ko kasasiromaroma^ no dateng.",
+                task1: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767211969/siwkolan_final_2_xasie4.png"
+            }
+        };
+
+        // 初始化載入
+        window.addEventListener('DOMContentLoaded', () => {
+            window.switchStoryImage(1);
+            
+            // 載入考題資料
+            const data = examData.central;
+            // 更新 Task 1 圖片
+            document.getElementById('task1-img').src = data.task1;
+
+            const textHTML = `
+                <div class="mb-6 relative">
+                    <span class="inline-block bg-slate-200 text-slate-600 text-xs font-bold px-2 py-1 rounded mb-2 uppercase tracking-wide">第一段：期中測驗 (Midterm)</span>
+                    <div class="amis-text text-xl md:text-2xl text-slate-700 italic font-medium leading-loose text-justify mb-2">
+                        "${data.textMidterm}"
+                    </div>
+                    <div class="flex gap-2 justify-end">
+                        <button onclick="togglePassFail(this, 'pass')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-check mr-1"></i> 通過</button>
+                        <button onclick="togglePassFail(this, 'fail')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-times mr-1"></i> 不通過</button>
+                    </div>
+                </div>
+                <hr class="border-dashed border-slate-300 my-4">
+                <div class="mb-2 relative">
+                    <span class="inline-block bg-rose-100 text-rose-700 text-xs font-bold px-2 py-1 rounded mb-2 uppercase tracking-wide">第二段：期末測驗 (Final)</span>
+                    <div class="amis-text text-xl md:text-2xl text-slate-700 italic font-medium leading-loose text-justify mb-2">
+                        "${data.textFinal}"
+                    </div>
+                    <div class="flex gap-2 justify-end">
+                        <button onclick="togglePassFail(this, 'pass')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-check mr-1"></i> 通過</button>
+                        <button onclick="togglePassFail(this, 'fail')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-times mr-1"></i> 不通過</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-text').innerHTML = textHTML;
+
+            // 設置音檔
+            const audioPlayer = document.getElementById('ref-audio');
+            audioPlayer.src = data.audio;
+            audioPlayer.load();
+
+            const audioContainer2 = document.getElementById('ref-audio-container-2');
+            const audioPlayer2 = document.getElementById('ref-audio-2');
+
+            if (data.audio2) {
+                audioContainer2.classList.remove('hidden');
+                audioContainer2.classList.add('flex');
+                audioPlayer2.src = data.audio2;
+                audioPlayer2.load();
+            }
+        });
+
+        // --- Google 表單連動設定區 ---
+        const GOOGLE_FORM_CONFIG = {
+            baseUrl: "https://docs.google.com/forms/d/e/1FAIpQLScw9CAMHpsx6LWkpnLOE3t9-ZEhgjqicvjOMWfKRvleNOXTAw/viewform", // 請替換為您的表單
+            manuscriptBaseUrl: "https://docs.google.com/forms/d/e/1FAIpQLScw9CAMHpsx6LWkpnLOE3t9-ZEhgjqicvjOMWfKRvleNOXTAw/viewform",
+            idField: "entry.442745491",  // 請確認您的 Form ID
+            nameField: "entry.1152993152"
+        };
+
+        window.openGoogleFormWithData = function(e, type) {
+            e.preventDefault();
+            
+            const studentId = "10"; // 王妤君
+            const studentName = document.getElementById('student-name').innerText.trim();
+
+            const targetUrl = (type === 'manuscript') 
+                              ? GOOGLE_FORM_CONFIG.manuscriptBaseUrl 
+                              : GOOGLE_FORM_CONFIG.baseUrl;
+
+            const finalUrl = `${targetUrl}?usp=pp_url&${GOOGLE_FORM_CONFIG.idField}=${encodeURIComponent(studentId)}&${GOOGLE_FORM_CONFIG.nameField}=${encodeURIComponent(studentName)}`;
+            window.open(finalUrl, '_blank');
+        };
+
+        // --- 計時器邏輯 ---
+        let intervals = { prep: null, read: null, story: null };
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+        }
+
+        window.startTimer = function(type, duration) {
+            if (intervals[type]) clearInterval(intervals[type]);
+            
+            // UI elements
+            const display = document.getElementById(`timer-display-${type}`);
+            const box = document.getElementById(`timer-box-${type}`);
+            
+            // 1. Play Ding
+            playDing();
+
+            // 2. Define Text
+            let msg = "";
+            switch(type) {
+                case 'prep':
+                    msg = "準備時間，一分三十秒。 Preparation time, one minute and thirty seconds.";
+                    break;
+                case 'read':
+                    msg = "開始朗讀作答，計時兩分鐘。 Start reading task, two minutes.";
+                    break;
+                case 'story':
+                    msg = "計時說故事，兩分鐘。 Storytelling task, two minutes.";
+                    break;
+            }
+
+            // 3. Define Timer Logic
+            const runTimer = () => {
+                let timer = duration;
+                box.classList.add('timer-running');
+                
+                // Update immediately to show starting time
+                display.textContent = formatTime(timer);
+
+                intervals[type] = setInterval(function () {
+                    timer--;
+                    if (timer < 0) {
+                        clearInterval(intervals[type]);
+                        box.classList.remove('timer-running');
+                        alert(`${type === 'prep' ? '準備時間' : type === 'read' ? '朗讀' : '說故事'} 時間到！`);
+                        return;
+                    }
+                    display.textContent = formatTime(timer);
+                    if (timer <= 10) display.classList.add('text-red-600');
+                }, 1000);
+            };
+
+            // 4. Execute: All types now wait for speech to end
+            speakText(msg, runTimer);
+        };
+
+        window.resetTimer = function(type, duration) {
+            if (intervals[type]) clearInterval(intervals[type]);
+            const display = document.getElementById(`timer-display-${type}`);
+            const box = document.getElementById(`timer-box-${type}`);
+            display.textContent = formatTime(duration);
+            display.classList.remove('text-red-600');
+            box.classList.remove('timer-running');
+            synth.cancel(); // Stop speaking if reset
+        };
+
+        // --- 錄音機邏輯 (MediaRecorder) ---
+        const recorders = {
+            1: { mediaRecorder: null, chunks: [] },
+            2: { mediaRecorder: null, chunks: [] },
+            3: { mediaRecorder: null, chunks: [] }
+        };
+
+        window.startRecording = async function(id) {
+            const btnStart = document.getElementById(`btn-record-start-${id}`);
+            const btnStop = document.getElementById(`btn-record-stop-${id}`);
+            const statusTxt = document.getElementById(`recording-status-${id}`);
+            const audioPlayback = document.getElementById(`recorded-audio-${id}`);
+            const btnDownload = document.getElementById(`btn-download-record-${id}`);
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                recorders[id].mediaRecorder = new MediaRecorder(stream);
+                recorders[id].chunks = [];
+
+                recorders[id].mediaRecorder.addEventListener("dataavailable", event => {
+                    recorders[id].chunks.push(event.data);
+                });
+
+                recorders[id].mediaRecorder.addEventListener("stop", () => {
+                    const audioBlob = new Blob(recorders[id].chunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    audioPlayback.src = audioUrl;
+                    audioPlayback.classList.remove('hidden');
+                    
+                    const time = new Date();
+                    const timestamp = `${time.getHours()}${time.getMinutes()}`;
+                    let filename = '';
+                    
+                    if (id === 1) filename = `Amis_Midterm_Reading_${timestamp}.webm`;
+                    else if (id === 2) filename = `Amis_Final_Reading_${timestamp}.webm`;
+                    else filename = `Amis_Story_${timestamp}.webm`;
+                    
+                    btnDownload.href = audioUrl;
+                    btnDownload.download = filename;
+                    btnDownload.style.display = 'block';
+                    
+                    statusTxt.textContent = "錄音完成！請試聽或下載";
+                });
+
+                recorders[id].mediaRecorder.start();
+                
+                btnStart.disabled = true;
+                btnStart.classList.add('recording-active');
+                btnStart.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 錄音中...';
+                btnStop.disabled = false;
+                btnStop.classList.remove('bg-slate-100', 'text-slate-400');
+                btnStop.classList.add('bg-slate-800', 'text-white', 'hover:bg-slate-700');
+                statusTxt.textContent = "正在錄音... (Recording)";
+                audioPlayback.classList.add('hidden');
+                btnDownload.style.display = 'none';
+
+            } catch (err) {
+                console.error("Error accessing microphone:", err);
+                alert("無法存取麥克風，請確認瀏覽器權限設定。");
+            }
+        };
+
+        window.stopRecording = function(id) {
+            const recorder = recorders[id].mediaRecorder;
+            const btnStart = document.getElementById(`btn-record-start-${id}`);
+            const btnStop = document.getElementById(`btn-record-stop-${id}`);
+
+            if (recorder && recorder.state !== 'inactive') {
+                recorder.stop();
+                btnStart.disabled = false;
+                btnStart.classList.remove('recording-active');
+                btnStart.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 重新錄音';
+                btnStop.disabled = true;
+                btnStop.classList.remove('bg-slate-800', 'text-white', 'hover:bg-slate-700');
+                btnStop.classList.add('bg-slate-100', 'text-slate-400');
+            }
+        };
+    </script>
+</body>
+</html>
