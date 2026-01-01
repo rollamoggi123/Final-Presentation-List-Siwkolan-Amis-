@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>秀姑巒阿美語期末報告 Final Presentation</title>
+    <title>族語 3 期末報告 - 幼教系(原專班) - 秀姑巒阿美語</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,33 +24,7 @@
         .page-title-gradient {
             background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
         }
-        .bilingual-sub {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: normal;
-            opacity: 0.8;
-            margin-top: 1px;
-        }
-        .editable-name {
-            cursor: text;
-            transition: all 0.2s;
-        }
-        .editable-name:hover {
-            background-color: #fff1f2;
-        }
-        .editable-name:focus {
-            background-color: #fff;
-            outline: 2px solid #e11d48;
-            box-shadow: 0 0 10px rgba(225, 29, 72, 0.2);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-        .tab-active {
-            border-bottom: 4px solid #e11d48;
-            color: #881337;
-            background-color: #fff1f2;
-        }
-        /* 分頁切換 */
+        /* 分頁切換動畫 */
         .page-section {
             display: none;
             animation: fadeIn 0.4s ease-out;
@@ -62,6 +36,7 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         /* 導覽列按鈕 */
         .nav-btn {
             padding: 0.5rem 1rem;
@@ -85,7 +60,7 @@
             color: white;
         }
 
-        /* 計時器動畫效果 */
+        /* 錄音與計時動畫 */
         @keyframes pulse-red {
             0%, 100% { background-color: #fee2e2; }
             50% { background-color: #fca5a5; }
@@ -93,7 +68,6 @@
         .timer-running {
             animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        /* 錄音動畫 */
         @keyframes pulse-record {
             0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
@@ -105,6 +79,7 @@
             border-color: #e11d48 !important;
             color: white !important;
         }
+
         /* 時程表卡片 */
         .sch-card {
             flex: 1;
@@ -117,22 +92,36 @@
         }
         .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
         .badge.final { background-color: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+        .time-col { font-family: monospace; font-weight: 700; color: #be123c; }
+
+        /* 首頁卡片 */
+        .home-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .home-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(190, 18, 60, 0.15);
+        }
     </style>
 </head>
 <body class="min-h-screen pb-12">
-    <!-- 頂部導覽 -->
-    <nav class="bg-slate-900 text-white p-4 shadow-lg mb-0 sticky top-0 z-50">
+
+    <!-- 頂部導覽列 -->
+    <nav class="bg-rose-900 text-white p-4 shadow-lg mb-0 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold flex items-center gap-2">
-                <i class="fas fa-university text-rose-400"></i> 
+                <i class="fas fa-university text-rose-300"></i> 
                 <div>
-                    族語 3 課程入口網
-                    <span class="bilingual-sub">Indigenous Language Learning Portal</span>
+                    族語 3 課程入口網 - 秀姑巒阿美語
+                    <span class="text-xs text-rose-200 block font-normal">Indigenous Language Learning Portal (Siwkolan 'Amis)</span>
                 </div>
             </h1>
             
-            <div class="flex gap-2 bg-slate-800 p-1 rounded-lg">
-                <button onclick="switchPage('schedule')" id="nav-schedule" class="nav-btn active">
+            <div class="flex gap-2 bg-rose-950/50 p-1 rounded-lg overflow-x-auto">
+                <button onclick="switchPage('home')" id="nav-home" class="nav-btn active">
+                    <i class="fas fa-home"></i> <span class="hidden sm:inline">首頁 Home</span>
+                </button>
+                <button onclick="switchPage('schedule')" id="nav-schedule" class="nav-btn inactive">
                     <i class="fas fa-calendar-alt"></i> <span class="hidden sm:inline">時程表 Schedule</span>
                 </button>
                 <button onclick="switchPage('exam')" id="nav-exam" class="nav-btn inactive">
@@ -143,33 +132,125 @@
     </nav>
 
     <!-- ========================================== -->
-    <!-- 頁面 1: 時程表 (Schedule View) -->
+    <!-- 頁面 1: 首頁 (Home View) - 新增 -->
     <!-- ========================================== -->
-    <div id="view-schedule" class="page-section active max-w-5xl mx-auto p-6">
+    <div id="view-home" class="page-section active max-w-6xl mx-auto p-6">
         
-        <!-- 課程資訊卡片 (Hero) -->
-        <div class="bg-gradient-to-r from-rose-700 to-rose-600 rounded-2xl p-8 mb-8 text-white shadow-xl">
-            <div class="flex flex-col md:flex-row justify-between gap-6 mb-6">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2">秀姑巒阿美語期末報告</h2>
-                    <p class="text-rose-100 mb-6 italic text-lg">Final Presentation (Siwkolan 'Amis)</p>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-rose-50 bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
-                        <div class="flex items-center gap-2"><i class="fas fa-chalkboard-teacher text-rose-300"></i> 授課教師：蘿拉麻吉 Sonay Rolla Moggi</div>
-                        <div class="flex items-center gap-2"><i class="fas fa-book-reader text-rose-300"></i> 課程名稱：族語 3</div>
-                        <div class="flex items-center gap-2"><i class="fas fa-users text-rose-300"></i> 班級：幼教系 (原專班)</div>
-                        <div class="flex items-center gap-2"><i class="far fa-calendar-alt text-rose-300"></i> 時間：2026年 1月</div>
-                        <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-rose-300"></i> 地點：A103語文教室 </div>
+        <!-- Welcome Hero -->
+        <div class="bg-gradient-to-br from-rose-800 to-rose-600 rounded-3xl p-10 text-white shadow-2xl mb-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+            <div class="relative z-10">
+                <span class="bg-rose-500/50 border border-rose-400/50 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block">
+                    2025-2026 學年度
+                </span>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+                    歡迎來到 <br>秀姑巒阿美語期末報告
+                </h1>
+                <p class="text-rose-100 text-lg max-w-2xl mb-8">
+                    Welcome to the Final Presentation Portal. This platform assists students in preparing for their oral exams, checking schedules, and recording their presentations.
+                </p>
+
+                <!-- 課程資訊 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-white/10 p-6 rounded-2xl border border-white/20 backdrop-blur-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div>
+                            <div class="text-xs text-rose-200">授課教師</div>
+                            <div class="font-bold">蘿拉麻吉 Sonay</div>
+                        </div>
                     </div>
-                </div>
-                <div class="flex items-center justify-center md:justify-end">
-                    <button onclick="switchPage('exam')" class="bg-white text-rose-800 hover:bg-rose-50 font-bold py-4 px-8 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center gap-3 text-lg border-2 border-rose-100">
-                        <i class="fas fa-rocket"></i> 進入測驗系統
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center"><i class="fas fa-users"></i></div>
+                        <div>
+                            <div class="text-xs text-rose-200">班級</div>
+                            <div class="font-bold">幼教系 (原專班)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center"><i class="far fa-clock"></i></div>
+                        <div>
+                            <div class="text-xs text-rose-200">時間</div>
+                            <div class="font-bold">2026年 1月</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <div class="text-xs text-rose-200">地點</div>
+                            <div class="font-bold">語文教室 (阿美語)</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 快速入口與公告 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <!-- 卡片 1: 時程表 -->
+            <div onclick="switchPage('schedule')" class="home-card bg-white p-6 rounded-2xl shadow-lg border border-slate-100 cursor-pointer group">
+                <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">查看時程表</h3>
+                <p class="text-slate-500 text-sm mb-4">Check Presentation Schedule</p>
+                <div class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded inline-block">
+                    <i class="fas fa-exclamation-circle mr-1"></i> 下次報告: 01/09
+                </div>
+            </div>
+
+            <!-- 卡片 2: 測驗系統 -->
+            <div onclick="switchPage('exam')" class="home-card bg-white p-6 rounded-2xl shadow-lg border border-slate-100 cursor-pointer group">
+                <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">進入測驗系統</h3>
+                <p class="text-slate-500 text-sm mb-4">Start Exam & Recording</p>
+                <div class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded inline-block">
+                    包含計時器與錄音功能
+                </div>
+            </div>
+
+            <!-- 卡片 3: 外部資源 -->
+            <a href="https://web.klokah.tw/" target="_blank" class="home-card bg-white p-6 rounded-2xl shadow-lg border border-slate-100 cursor-pointer group block">
+                <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">族語 E 樂園</h3>
+                <p class="text-slate-500 text-sm mb-4">Learning Resources</p>
+                <div class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded inline-block">
+                    前往外部網站
+                </div>
+            </a>
+        </div>
+
+        <!-- 最新公告 -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+            <h3 class="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-bullhorn text-rose-500"></i> 最新公告 (Announcements)
+            </h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3 p-3 bg-rose-50 rounded-lg border border-rose-100">
+                    <div class="bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded mt-0.5">重要</div>
+                    <div>
+                        <div class="font-bold text-slate-800 text-sm">01/09 期末報告時間更新</div>
+                        <div class="text-xs text-slate-600 mt-1">請注意，1月9日的期末報告開始時間已調整為 <strong>14:10</strong>。請序號 9-15 號同學準時出席。</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <div class="bg-slate-400 text-white text-xs font-bold px-2 py-1 rounded mt-0.5">提醒</div>
+                    <div>
+                        <div class="font-bold text-slate-800 text-sm">錄音檔案下載</div>
+                        <div class="text-xs text-slate-600 mt-1">測驗結束後，請務必點擊「下載錄音」按鈕保存您的檔案，並上傳至 Google 表單。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 頁面 2: 時程表 (Schedule View) -->
+    <!-- ========================================== -->
+    <div id="view-schedule" class="page-section max-w-5xl mx-auto p-6">
         <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200">
             <header class="mb-6 border-b border-rose-100 pb-4">
                 <h1 class="text-2xl font-bold text-rose-800 flex items-center gap-2">
@@ -180,12 +261,12 @@
 
             <!-- 摘要卡片 -->
             <div class="flex gap-4 flex-wrap mb-8">
-                <div class="sch-card hover:shadow-md transition-shadow">
-                    <h3 class="font-bold text-rose-700 text-lg mb-1">12/19 期中 (Midterm)</h3>
+                <div class="sch-card hover:shadow-md transition-shadow bg-slate-50 opacity-70">
+                    <h3 class="font-bold text-slate-700 text-lg mb-1">12/19 期中 (Midterm)</h3>
                     <p class="text-slate-600">🕒 14:10 開始</p>
                     <p class="text-slate-500 text-sm">📝 1-15號 (已結束)</p>
                 </div>
-                <div class="sch-card hover:shadow-md transition-shadow bg-rose-50/50">
+                <div class="sch-card hover:shadow-md transition-shadow bg-white">
                     <h3 class="font-bold text-rose-700 text-lg mb-1">01/02 期末 (Final)</h3>
                     <p class="text-slate-600">🕒 <strong>14:10 開始</strong></p>
                     <p class="text-slate-500 text-sm">📝 1-8號</p>
@@ -193,7 +274,7 @@
                 <div class="sch-card hover:shadow-md transition-shadow border-l-4 border-rose-500 ring-2 ring-rose-200">
                     <h3 class="font-bold text-rose-700 text-lg mb-1">01/09 期末 (Final)</h3>
                     <p class="text-slate-600">🕒 <strong>14:10 開始</strong></p>
-                    <p class="text-slate-500 text-sm">📝 9-15號 <span class="bg-red-100 text-red-600 px-1 rounded text-xs ml-1">Updated</span></p>
+                    <p class="text-slate-500 text-sm">📝 9-15號 <span class="bg-red-100 text-red-600 px-1 rounded text-xs ml-1 font-bold">Updated</span></p>
                 </div>
             </div>
 
@@ -207,41 +288,31 @@
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-600 text-sm">
                             <tr>
-                                <th class="p-3 border-b">狀態</th>
-                                <th class="p-3 border-b">No.</th>
+                                <th class="p-3 border-b w-24">狀態</th>
+                                <th class="p-3 border-b w-16">No.</th>
                                 <th class="p-3 border-b">姓名</th>
                                 <th class="p-3 border-b">分組</th>
                                 <th class="p-3 border-b">預計時間</th>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-slate-100">
-                            <!-- 僅列出部分範例，可根據需求擴充 -->
-                            <tr class="hover:bg-rose-50 transition-colors">
+                            <tr class="hover:bg-rose-50 transition-colors bg-rose-50/30">
                                 <td class="p-3"><span class="badge final">期末+口說</span></td>
                                 <td class="p-3 font-mono font-bold text-rose-800">10</td>
                                 <td class="p-3 font-bold text-slate-700">王妤君</td>
-                                <td class="p-3 text-slate-600">秀姑巒阿美</td>
-                                <td class="p-3 font-mono text-rose-700 font-bold">14:30 - 14:50</td>
-                            </tr>
-                            <tr class="hover:bg-rose-50 transition-colors">
-                                <td class="p-3"><span class="badge final">期末+口說</span></td>
-                                <td class="p-3 font-mono font-bold text-rose-800">12</td>
-                                <td class="p-3">呂頌恩</td>
-                                <td class="p-3 text-slate-600">北排灣</td>
-                                <td class="p-3 font-mono text-slate-500">15:10 - 15:30</td>
+                                <td class="p-3 text-slate-600">秀姑巒阿美 (Siwkolan)</td>
+                                <td class="p-3 time-col">14:10 - 14:30</td>
+                        
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="bg-slate-50 px-4 py-2 text-xs text-slate-500 text-center border-t border-slate-200">
-                    * 實際報告時間視現場狀況調整 / Actual time may vary
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- 頁面 2: 測驗系統 (Exam App View) -->
+    <!-- 頁面 3: 測驗系統 (Exam App View) -->
     <!-- ========================================== -->
     <div id="view-exam" class="page-section">
         
@@ -249,14 +320,11 @@
         <div class="page-title-gradient text-white py-8 px-4 mb-8 shadow-inner border-b-4 border-rose-900">
             <div class="max-w-7xl mx-auto text-center">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
-                    秀姑巒阿美語 期末測驗系統
+                    期末測驗控制台
                 </h2>
-                
-                <!-- 簡化版資訊列 -->
                 <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs md:text-sm text-rose-100 opacity-90">
-                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30"><i class="fas fa-chalkboard-teacher mr-1"></i> Sonay Rolla Moggi</span>
-                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30"><i class="fas fa-book-reader mr-1"></i> 族語 3</span>
-                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30"><i class="fas fa-users mr-1"></i> 幼教系 (原專班)</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30"><i class="fas fa-user-circle mr-1"></i> 考生：王妤君</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30"><i class="fas fa-language mr-1"></i> 秀姑巒阿美語</span>
                 </div>
             </div>
         </div>
@@ -442,7 +510,7 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="startTimer('prep', 90)" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                    <button onclick="startSmartTimer('prep', 90)" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
                                     <button onclick="resetTimer('prep', 90)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
                                 </div>
                             </div>
@@ -457,7 +525,7 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="startTimer('read', 120)" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                    <button onclick="startSmartTimer('read', 120)" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
                                     <button onclick="resetTimer('read', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
                                 </div>
                             </div>
@@ -472,7 +540,7 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="startTimer('story', 120)" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                    <button onclick="startSmartTimer('story', 120)" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
                                     <button onclick="resetTimer('story', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
                                 </div>
                             </div>
@@ -738,7 +806,8 @@
 
         // 初始化載入
         window.addEventListener('DOMContentLoaded', () => {
-            window.switchStoryImage(1);
+            window.switchPage('home'); // 預設進入首頁
+            window.switchStoryImage(1); // 初始化故事
             
             // 載入考題資料
             const data = examData.central;
@@ -817,7 +886,7 @@
             return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
         }
 
-        window.startTimer = function(type, duration) {
+        window.startSmartTimer = function(type, duration) {
             if (intervals[type]) clearInterval(intervals[type]);
             
             // UI elements
